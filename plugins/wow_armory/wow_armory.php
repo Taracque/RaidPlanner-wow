@@ -26,6 +26,32 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 		$region = $this->params['guild_region'];
 		$realm = $this->params['guild_realm'];
 
+		/* load database ids race array */
+		$races = array();
+		$query = "SELECT race_id, race_name FROM #__raidplanner_race";
+		$db->setQuery( $query );
+		$tmp1 = $db->loadAssocList( 'race_name' );
+
+		$url = "http://" . $region . ".battle.net/api/wow/data/character/races";
+		$tmp = json_decode( $this->getData( $url ) ,true );
+
+		foreach ($tmp['races'] as $race) {
+			$races[ $race['id'] ] = $tmp1[ $race['name'] ]['race_id'];
+		}
+		
+		/* load database ids race array */
+		$classes = array();
+		$query = "SELECT class_id, class_name FROM #__raidplanner_class";
+		$db->setQuery( $query );
+		$tmp1 = $db->loadAssocList( 'class_name' );
+
+		$url = "http://" . $region . ".battle.net/api/wow/data/character/classes";
+		$tmp = json_decode( $this->getData( $url ) ,true );
+
+		foreach ($tmp['classes'] as $class) {
+			$classes[ $class['id'] ] = $tmp1[ $class['name'] ]['class_id'];
+		}
+
 		$url = "http://" . $region . ".battle.net/api/wow/guild/";
 		$url .= rawurlencode( $realm ) . "/";
 		$url .= rawurlencode( $this->guild_name );
@@ -86,13 +112,13 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 					$db->query();
 					$char_id=$db->insertid();
 				}
-				$query = "UPDATE #__raidplanner_character SET class_id='".intval($member->character->class)."'
-															,race_id='".intval($member->character->race)."'
-															,gender_id='".(intval($member->character->gender) + 1)."'
-															,char_level='".intval($member->character->level)."'
-															,rank='".intval($member->rank)."'
-															,guild_id='".intval($this->guild_id)."'
-															WHERE character_id=".$char_id;
+				$query = "UPDATE #__raidplanner_character SET class_id='" . $classes[ intval($member->character->class) ] . "'
+															,race_id='" . $races[ intval($member->character->race) ] . "'
+															,gender_id='" . (intval($member->character->gender) + 1) . "'
+															,char_level='" . intval($member->character->level) . "'
+															,rank='" . intval($member->rank) . "'
+															,guild_id='" . intval($this->guild_id) . "'
+															WHERE character_id=" . $char_id;
 				$db->setQuery($query);
 				$db->query();
 			}
