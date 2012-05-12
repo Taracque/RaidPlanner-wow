@@ -31,25 +31,7 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 		$url .= rawurlencode( $this->guild_name );
 		$url = $url . "?fields=members";
 
-		// Init cURL
-		$ch = curl_init();
-
-		// Language
-		$header[] = 'Accept-Language: en_EN';
-		// Browser
-		$browser = 'Mozilla/5.0 (compatible; MSIE 7.01; Windows NT 5.1)';
-		
-		// cURL options
-		curl_setopt ($ch, CURLOPT_URL, $url );
-		curl_setopt ($ch, CURLOPT_HTTPHEADER, $header); 
-		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 15);
-		curl_setopt ($ch, CURLOPT_USERAGENT, $browser);
-		
-		$url_string = curl_exec($ch);
-		curl_close($ch);
-
-		$data = json_decode($url_string);
+		$data = json_decode( $this->getData( $url ) );
 		if (function_exists('json_last_error')) {
 			if (json_last_error() != JSON_ERROR_NONE)
 			{
