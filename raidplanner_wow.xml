@@ -70,16 +70,16 @@
 		<file>role_tank.png</file>
 	</fileset>
 	<fileset destination="class_icons" folder="class_icons">
-		<file>class_1.png</file>
-		<file>class_2.png</file>
-		<file>class_3.png</file>
-		<file>class_4.png</file>
-		<file>class_5.png</file>
-		<file>class_6.png</file>
-		<file>class_7.png</file>
-		<file>class_8.png</file>
-		<file>class_9.png</file>
-		<file>class_11.png</file>
+		<file>wow_death_knight.png</file>
+		<file>wow_druid.png</file>
+		<file>wow_hunter.png</file>
+		<file>wow_mage.png</file>
+		<file>wow_paladin.png</file>
+		<file>wow_priest.png</file>
+		<file>wow_rogue.png</file>
+		<file>wow_shaman.png</file>
+		<file>wow_warlock.png</file>
+		<file>wow_warrior.png</file>
 	</fileset>
 	<fileset destination="css" folder="css">
 		<file>raidplanner_wow.css</file>
