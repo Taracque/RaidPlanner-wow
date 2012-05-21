@@ -12,17 +12,17 @@
 	<releaseType>Development release</releaseType>
 	<description>RaidPlanner WoW Theme</description>
 	<install>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Warrior'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#C79C6E',	'Warrior')</sql>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Paladin'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#F58CBA',	'Paladin')</sql>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Hunter'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#ABD473',	'Hunter')</sql>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Rogue'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#A49900',	'Rogue')</sql>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Priest'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#8CA5A3',	'Priest')</sql>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Death Knight'">INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#C41F3B',	'Death Knight')</sql>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Shaman'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#0070DE',	'Shaman')</sql>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Mage'">		INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#69CCF0',	'Mage')</sql>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Warlock'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#9482C9',	'Warlock')</sql>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Druid'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#FF7D0A',	'Druid')</sql>
-		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Monk'">		INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`) VALUES ('#558A84',	'Monk')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Warrior'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#C79C6E',	'Warrior', 'class_wow_warrior')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Paladin'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#F58CBA',	'Paladin', 'class_wow_paladin')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Hunter'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#ABD473',	'Hunter', 'class_wow_hunter')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Rogue'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#A49900',	'Rogue', 'class_wow_rogue')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Priest'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#8CA5A3',	'Priest', 'class_wow_priest')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Death Knight'">INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#C41F3B',	'Death Knight', 'class_wow_death_knight')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Shaman'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#0070DE',	'Shaman', 'class_wow_shaman')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Mage'">		INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#69CCF0',	'Mage', 'class_wow_mage')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Warlock'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#9482C9',	'Warlock', 'class_wow_warlock')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Druid'">	INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#FF7D0A',	'Druid', 'class_wow_druid')</sql>
+		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_class WHERE class_name='Monk'">		INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) VALUES ('#558A84',	'Monk', 'class_wow_monk')</sql>
 
 		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_race WHERE race_name='Human'">		INSERT IGNORE INTO `#__raidplanner_race` (`race_name`) VALUES ('Human')</sql>
 		<sql condition="SELECT COUNT(*)=0 FROM #__raidplanner_race WHERE race_name='Orc'">		INSERT IGNORE INTO `#__raidplanner_race` (`race_name`) VALUES ('Orc')</sql>
