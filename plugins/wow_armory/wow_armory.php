@@ -14,6 +14,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 {
 
+	protected $provide_sync = true;
+
 	function __construct( $guild_id, $guild_name, $params)
 	{
 		parent::__construct( $guild_id, $guild_name, $params);
@@ -163,6 +165,13 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 		$header[] = $this->params['guild_realm'] . " - " . strtoupper($this->params['guild_region']) . '</strong>';
 
 		return implode("\n", $header);
+	}
+
+	public function loadCSS()
+	{
+		JHTML::stylesheet('raidplanner_wow.css', 'images/raidplanner/css/' );
+		
+		return true;
 	}
 
 }
