@@ -77,7 +77,7 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 			$params = array(
 				'achievementPoints' => $data->achievementPoints,
 				'side'		=> ($data->side==0)?"Alliance":"Horde",
-				'emblem'	=> $data->emblem,
+				'emblem'	=> get_object_vars( $data->emblem ),
 				'link'		=> "http://" . $region . ".battle.net/wow/guild/" . rawurlencode($realm) . "/" . rawurlencode($data->name) ."/",
 				'char_link'	=> "http://" . $region . ".battle.net/wow/character/%s/%s/advanced",
 				'guild_realm'	=>	$data->realm,
