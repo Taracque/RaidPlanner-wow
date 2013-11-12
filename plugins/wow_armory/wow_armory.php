@@ -145,7 +145,8 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 	
 	public function guildHeader()
 	{
-		JHTML::script('guild-tabard.js', 'images/raidplanner/wow_tabards/');
+		$document = JFactory::getDocument();
+		$document->addScript('images/raidplanner/wow_tabards/guild-tabard.js');
 		
 		$header = array();
 		$header[] = '<canvas id="rp_guild_tabard" width="120" height="120" style="float:right;"></canvas>';
@@ -168,7 +169,8 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 
 	public function loadCSS()
 	{
-		JHTML::stylesheet('raidplanner_wow.css', 'images/raidplanner/css/' );
+		$document = JFactory::getDocument();
+		$document->addStyleSheet( 'images/raidplanner/css/raidplanner_wow.css' );
 		
 		return true;
 	}
