@@ -59,8 +59,11 @@
 		<file>firelands.png</file>
 		<file>lich_king.png</file>
 		<file>pvp.png</file>
+		<file>siege_of_orgrimmar.png</file>
 		<file>star.png</file>
+		<file>terrace_of_endless_spring.png</file>
 		<file>throne_of_four_winds.png</file>
+		<file>throne_of_thunder.png</file>
 		<file>wow.png</file>
 	</fileset>
 	<fileset destination="role_icons" folder="role_icons">
