@@ -11,6 +11,7 @@
 	<releaseDate>2013-11-15</releaseDate>
 	<releaseType>Development release</releaseType>
 	<description>RaidPlanner WoW Plugin</description>
+	<rostersync>true</rostersync>
 	<install>
 		<sql>
 			<file driver="mysql" charset="utf8">install.mysql.sql</file>

@@ -13,7 +13,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class PlgRaidplannerWow extends JPlugin
 {
-	public $provide_sync = true;
 	private $guild_id = 0;
 	private $rp_params = array();
 	private $guild_name = '';
@@ -31,6 +30,11 @@ class PlgRaidplannerWow extends JPlugin
 		} else {
 			$this->guild_id = 0;
 		}
+	}
+
+	public function onRPBeforeSync()
+	{
+		return true;
 	}
 
 	public function onRPSyncGuild( $showOkStatus = false, $syncInterval = 4, $forceSync = false )
