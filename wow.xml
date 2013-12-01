@@ -8,8 +8,8 @@
 	<copyright>Copyright Info</copyright>
 	<license>http://www.gnu.org/licenseses/gpl-2.0.html GNU/GPL</license>
 	<version>0.0.3</version>
-	<releaseDate>2013-11-15</releaseDate>
-	<releaseType>Development release</releaseType>
+	<releaseDate>2013-12-01</releaseDate>
+	<releaseType>Release</releaseType>
 	<description>RaidPlanner WoW Plugin</description>
 	<rostersync>true</rostersync>
 	<install>
