@@ -11,21 +11,48 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
+class PlgRaidplannerWow extends JPlugin
 {
-	function __construct( $guild_id, $guild_name, $params)
+	private $guild_id = 0;
+	private $rp_params = array();
+	private $guild_name = '';
+	
+	public function onRPInitGuild( $guildId, $params )
 	{
-		parent::__construct( $guild_id, $guild_name, $params);
-		
-		$this->provide_sync = true;
+		$db = & JFactory::getDBO();
+		$query = "SELECT guild_name,guild_id FROM #__raidplanner_guild WHERE guild_id=" . intval($guildId); 
+		$db->setQuery($query);
+		if ( $data = $db->loadObject() )
+		{
+			$this->guild_name = $data->guild_name;
+			$this->guild_id = $data->guild_id;
+			$this->rp_params = $params;
+		} else {
+			$this->guild_id = 0;
+		}
 	}
 
-	public function doSync( $showOkStatus = false )
+	public function onRPBeforeSync()
+	{
+		return true;
+	}
+
+	public function onRPSyncGuild( $showOkStatus = false, $syncInterval = 4, $forceSync = false )
 	{
 		$db = & JFactory::getDBO();
 
-		$region = $this->params['guild_region'];
-		$realm = $this->params['guild_realm'];
+		$query = "SELECT IF(lastSync IS NULL,-1,DATE_ADD(lastSync, INTERVAL " . intval( $syncInterval ) . " HOUR)-NOW()) AS needSync,guild_name FROM #__raidplanner_guild WHERE guild_id=" . intval($this->guild_id); 
+		$db->setQuery($query);
+		if ( (!$forceSync) && ( !($needsync = $db->loadResult()) || ( $needsync>=0 ) ) )
+		{
+			/* Sync not needed, exit */
+			return false;
+		}
+
+		JLoader::register('RaidPlannerHelper', JPATH_ADMINISTRATOR . '/components/com_raidplanner/helper.php' );
+
+		$region = $this->rp_params['guild_region'];
+		$realm = $this->rp_params['guild_realm'];
 
 		/* load database ids race array */
 		$races = array();
@@ -34,7 +61,7 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 		$tmp1 = $db->loadAssocList( 'race_name' );
 
 		$url = "http://" . $region . ".battle.net/api/wow/data/character/races";
-		$tmp = json_decode( $this->getData( $url ) ,true );
+		$tmp = json_decode( RaidPlannerHelper::downloadData( $url ) ,true );
 
 		foreach ($tmp['races'] as $race) {
 			$races[ $race['id'] ] = $tmp1[ $race['name'] ]['race_id'];
@@ -47,7 +74,7 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 		$tmp1 = $db->loadAssocList( 'class_name' );
 
 		$url = "http://" . $region . ".battle.net/api/wow/data/character/classes";
-		$tmp = json_decode( $this->getData( $url ) ,true );
+		$tmp = json_decode( RaidPlannerHelper::downloadData( $url ) ,true );
 
 		foreach ($tmp['classes'] as $class) {
 			$classes[ $class['id'] ] = $tmp1[ $class['name'] ]['class_id'];
@@ -58,7 +85,7 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 		$url .= rawurlencode( $this->guild_name );
 		$url = $url . "?fields=members";
 
-		$data = json_decode( $this->getData( $url ) );
+		$data = json_decode( RaidPlannerHelper::downloadData( $url ) );
 		if (function_exists('json_last_error')) {
 			if (json_last_error() != JSON_ERROR_NONE)
 			{
@@ -85,7 +112,7 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 				'guild_level'	=>	$data->level
 			);
 
-			$this->params = array_merge( $this->params, $params );
+			$this->rp_params = array_merge( $this->rp_params, $params );
 			
 			$query = "UPDATE #__raidplanner_guild SET
 							guild_name=".$db->Quote($data->name).",
@@ -138,39 +165,39 @@ class RaidPlannerPluginWow_armory extends RaidPlannerPlugin
 		}
 	}
 
-	public function characterLink( $char_name )
+	public function onRPGetCharacterLink( $char_name )
 	{
-		return sprintf($this->params['char_link'], rawurlencode($this->params['guild_realm']), rawurlencode($char_name) ) . '" target="_blank';
+		return sprintf($this->rp_params['char_link'], rawurlencode($this->rp_params['guild_realm']), rawurlencode($char_name) ) . '" target="_blank';
 	}
 	
-	public function guildHeader()
+	public function onRPGetGuildHeader()
 	{
 		$document = JFactory::getDocument();
-		$document->addScript('images/raidplanner/wow_tabards/guild-tabard.js');
+		$document->addScript('media/com_raidplanner/wow_tabards/guild-tabard.js');
 		
 		$header = array();
 		$header[] = '<canvas id="rp_guild_tabard" width="120" height="120" style="float:right;"></canvas>';
 		$header[] = '<script type="text/javascript">';
 		$header[] = '	window.addEvent("domready",function(){';
 		$header[] = '		var tabard = new GuildTabard("rp_guild_tabard", {';
-		$header[] = '			"ring": "' . $this->params['side'] . '",';
-		$header[] = '			"bg": [ 0, "' . $this->params['emblem']['backgroundColor'] . '" ], ';
-		$header[] = '			"border": [ "' . $this->params['emblem']['border'] . '", "' . $this->params['emblem']['borderColor'] . '" ], ';
-		$header[] = '			"emblem": [ "' . $this->params['emblem']['icon'] . '", "' . $this->params['emblem']['iconColor'] . '" ], ';
-		$header[] = '		}, "' . JURI::base() . 'images/raidplanner/wow_tabards/");';
+		$header[] = '			"ring": "' . $this->rp_params['side'] . '",';
+		$header[] = '			"bg": [ 0, "' . $this->rp_params['emblem']['backgroundColor'] . '" ], ';
+		$header[] = '			"border": [ "' . $this->rp_params['emblem']['border'] . '", "' . $this->rp_params['emblem']['borderColor'] . '" ], ';
+		$header[] = '			"emblem": [ "' . $this->rp_params['emblem']['icon'] . '", "' . $this->rp_params['emblem']['iconColor'] . '" ], ';
+		$header[] = '		}, "' . JURI::base() . 'media/com_raidplanner/wow_tabards/");';
 		$header[] = '	});';
 		$header[] = '</script>';
-		$header[] = '<h2><a href="' . $this->params['link'] . '" target="_blank">' . $this->guild_name . '</a></h2>';
-		$header[] = '<strong>' . JText::_('COM_RAIDPLANNER_LEVEL') . " " . $this->params['guild_level'] . " " . $this->params['side'] . " " . JText::_('COM_RAIDPLANNER_GUILD') . '<br />';
-		$header[] = $this->params['guild_realm'] . " - " . strtoupper($this->params['guild_region']) . '</strong>';
+		$header[] = '<h2><a href="' . $this->rp_params['link'] . '" target="_blank">' . $this->guild_name . '</a></h2>';
+		$header[] = '<strong>' . JText::_('COM_RAIDPLANNER_LEVEL') . " " . $this->rp_params['guild_level'] . " " . $this->rp_params['side'] . " " . JText::_('COM_RAIDPLANNER_GUILD') . '<br />';
+		$header[] = $this->rp_params['guild_realm'] . " - " . strtoupper($this->rp_params['guild_region']) . '</strong>';
 
 		return implode("\n", $header);
 	}
 
-	public function loadCSS()
+	public function onRPLoadCSS()
 	{
 		$document = JFactory::getDocument();
-		$document->addStyleSheet( 'images/raidplanner/css/raidplanner_wow.css' );
+		$document->addStyleSheet( 'media/com_raidplanner/css/raidplanner_wow.css' );
 		
 		return true;
 	}
