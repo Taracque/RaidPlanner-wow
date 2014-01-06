@@ -7,9 +7,9 @@
 	<authorUrl>http://taracque.hu</authorUrl>
 	<copyright>Copyright Info</copyright>
 	<license>http://www.gnu.org/licenseses/gpl-2.0.html GNU/GPL</license>
-	<version>0.0.3</version>
-	<releaseDate>2013-11-15</releaseDate>
-	<releaseType>Development release</releaseType>
+	<version>0.0.4</version>
+	<releaseDate>2014-01-16</releaseDate>
+	<releaseType>Release</releaseType>
 	<description>RaidPlanner WoW Plugin</description>
 	<rostersync>true</rostersync>
 	<install>
@@ -34,6 +34,7 @@
 		<file destionation="class_icons">class_icons/wow_shaman.png</file>
 		<file destionation="class_icons">class_icons/wow_warlock.png</file>
 		<file destionation="class_icons">class_icons/wow_warrior.png</file>
+		<file destionation="class_icons">class_icons/wow_monk.png</file>
 		<file destionation="raid_icons">raid_icons/baradin_hold.png</file>
 		<file destionation="raid_icons">raid_icons/bastion_of_twilight.png</file>
 		<file destionation="raid_icons">raid_icons/blackwing_descent.png</file>
