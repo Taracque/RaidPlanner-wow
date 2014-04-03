@@ -121,40 +121,43 @@ class PlgRaidplannerWow extends JPlugin
 							WHERE guild_id=".intval($this->guild_id);
 			$db->setQuery($query);
 			$db->query();
-
-			/* detach characters from guild */
-			$query = "UPDATE #__raidplanner_character SET guild_id=0 WHERE guild_id=".intval($this->guild_id)."";
-			$db->setQuery($query);
-			$db->query();
-
-			foreach($data->members as $member)
-			{
-				// check if character exists
-				$query = "SELECT character_id FROM #__raidplanner_character WHERE char_name LIKE BINARY ".$db->Quote($member->character->name)."";
+			
+			/* if we atleast one member in listed */
+			if ( (is_array($data->members)) && (count($data->members) > 0) ) {	
+				/* detach characters from guild */
+				$query = "UPDATE #__raidplanner_character SET guild_id=0 WHERE guild_id=".intval($this->guild_id)."";
 				$db->setQuery($query);
-				$char_id = $db->loadResult();
-				// not found insert it
-				if (!$char_id) {
-					$query="INSERT INTO #__raidplanner_character SET char_name=".$db->Quote($member->character->name)."";
+				$db->query();
+
+				foreach($data->members as $member)
+				{
+					// check if character exists
+					$query = "SELECT character_id FROM #__raidplanner_character WHERE char_name LIKE BINARY ".$db->Quote($member->character->name)."";
+					$db->setQuery($query);
+					$char_id = $db->loadResult();
+					// not found insert it
+					if (!$char_id) {
+						$query="INSERT INTO #__raidplanner_character SET char_name=".$db->Quote($member->character->name)."";
+						$db->setQuery($query);
+						$db->query();
+						$char_id=$db->insertid();
+					}
+					$query = "UPDATE #__raidplanner_character SET class_id='" . $classes[ intval($member->character->class) ] . "'
+																,race_id='" . $races[ intval($member->character->race) ] . "'
+																,gender_id='" . (intval($member->character->gender) + 1) . "'
+																,char_level='" . intval($member->character->level) . "'
+																,rank='" . intval($member->rank) . "'
+																,guild_id='" . intval($this->guild_id) . "'
+																WHERE character_id=" . $char_id;
 					$db->setQuery($query);
 					$db->query();
-					$char_id=$db->insertid();
 				}
-				$query = "UPDATE #__raidplanner_character SET class_id='" . $classes[ intval($member->character->class) ] . "'
-															,race_id='" . $races[ intval($member->character->race) ] . "'
-															,gender_id='" . (intval($member->character->gender) + 1) . "'
-															,char_level='" . intval($member->character->level) . "'
-															,rank='" . intval($member->rank) . "'
-															,guild_id='" . intval($this->guild_id) . "'
-															WHERE character_id=" . $char_id;
+
+				/* delete all guildless characters */
+				$query = "DELETE FROM #__raidplanner_character WHERE guild_id=0";
 				$db->setQuery($query);
 				$db->query();
 			}
-
-			/* delete all guildless characters */
-			$query = "DELETE FROM #__raidplanner_character WHERE guild_id=0";
-			$db->setQuery($query);
-			$db->query();
 			
 			if ($showOkStatus)
 			{
