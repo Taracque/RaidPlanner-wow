@@ -19,7 +19,7 @@ class PlgRaidplannerWow extends JPlugin
 	
 	public function onRPInitGuild( $guildId, $params )
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT guild_name,guild_id FROM #__raidplanner_guild WHERE guild_id=" . intval($guildId); 
 		$db->setQuery($query);
 		if ( $data = $db->loadObject() )
@@ -39,7 +39,7 @@ class PlgRaidplannerWow extends JPlugin
 
 	public function onRPSyncGuild( $showOkStatus = false, $syncInterval = 4, $forceSync = false )
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT IF(lastSync IS NULL,-1,DATE_ADD(lastSync, INTERVAL " . intval( $syncInterval ) . " HOUR)-NOW()) AS needSync,guild_name FROM #__raidplanner_guild WHERE guild_id=" . intval($this->guild_id); 
 		$db->setQuery($query);
