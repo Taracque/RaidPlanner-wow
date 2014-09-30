@@ -170,7 +170,7 @@ class PlgRaidplannerWow extends JPlugin
 
 	public function onRPGetCharacterLink( $char_name )
 	{
-		return sprintf($this->rp_params['char_link'], rawurlencode($this->rp_params['guild_realm']), rawurlencode($char_name) ) . '" target="_blank';
+		return sprintf($this->rp_params['char_link'], rawurlencode($this->rp_params['guild_realm']), rawurlencode($char_name) ) . '" data-darktip="wow.character:'.$this->rp_params['guild_region'].'.'.$this->rp_params['guild_realm'].'.'.$char_name.'(en)" target="_blank';
 	}
 	
 	public function onRPGetGuildHeader()
