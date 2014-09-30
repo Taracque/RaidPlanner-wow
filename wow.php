@@ -190,9 +190,9 @@ class PlgRaidplannerWow extends JPlugin
 		$header[] = '		}, "' . JURI::base() . 'media/com_raidplanner/wow_tabards/");';
 		$header[] = '	});';
 		$header[] = '</script>';
-		$header[] = '<h2><a href="' . $this->rp_params['link'] . '" target="_blank">' . $this->guild_name . '</a></h2>';
+		$header[] = '<h2><a href="' . $this->rp_params['link'] . '" data-darktip="wow.guild:'.$this->rp_params['guild_region'].'.'.$this->rp_params['guild_realm'].'.'.$this->guild_name.'(en)" target="_blank">' . $this->guild_name . '</a></h2>';
 		$header[] = '<strong>' . JText::_('COM_RAIDPLANNER_LEVEL') . " " . $this->rp_params['guild_level'] . " " . $this->rp_params['side'] . " " . JText::_('COM_RAIDPLANNER_GUILD') . '<br />';
-		$header[] = $this->rp_params['guild_realm'] . " - " . strtoupper($this->rp_params['guild_region']) . '</strong>';
+		$header[] = '<span data-darktip="wow.realm:'.$this->rp_params['guild_region'].'.'.$this->rp_params['guild_realm'].'(en)">'.$this->rp_params['guild_realm'] . " - " . strtoupper($this->rp_params['guild_region']) . '</span></strong>';
 
 		return implode("\n", $header);
 	}
