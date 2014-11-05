@@ -62,7 +62,7 @@ class PlgRaidplannerWow extends JPlugin
 		$tmp1 = $db->loadAssocList( 'race_name' );
 
 		if ($api_key) {
-			$url = "https://" . $region . ".api.battle.net/api/wow/data/character/races?locale=en_GB&apikey=" . $api_key;
+			$url = "https://" . $region . ".api.battle.net/wow/data/character/races?locale=en_GB&apikey=" . $api_key;
 		} else {
 			$url = "http://" . $region . ".battle.net/api/wow/data/character/races";
 		}
@@ -79,7 +79,7 @@ class PlgRaidplannerWow extends JPlugin
 		$tmp1 = $db->loadAssocList( 'class_name' );
 
 		if ($api_key) {
-			$url = "https://" . $region . ".api.battle.net/api/wow/data/character/classes?locale=en_GB&apikey=" . $api_key;
+			$url = "https://" . $region . ".api.battle.net/wow/data/character/classes?locale=en_GB&apikey=" . $api_key;
 		} else {
 			$url = "http://" . $region . ".battle.net/api/wow/data/character/classes";
 		}
@@ -90,7 +90,7 @@ class PlgRaidplannerWow extends JPlugin
 		}
 
 		if ($api_key) {
-			$url = "https://" . $region . ".api.battle.net/api/wow/guild/";
+			$url = "https://" . $region . ".api.battle.net/wow/guild/";
 			$url .= rawurlencode( $realm ) . "/";
 			$url .= rawurlencode( $this->guild_name );
 			$url = $url . "?fields=members&locale=en_GB&apikey=" . $api_key;
