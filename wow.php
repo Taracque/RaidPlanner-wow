@@ -53,6 +53,7 @@ class PlgRaidplannerWow extends JPlugin
 
 		$region = $this->rp_params['guild_region'];
 		$realm = $this->rp_params['guild_realm'];
+		$api_key = $this->rp_params['api_key'];
 
 		/* load database ids race array */
 		$races = array();
@@ -60,7 +61,11 @@ class PlgRaidplannerWow extends JPlugin
 		$db->setQuery( $query );
 		$tmp1 = $db->loadAssocList( 'race_name' );
 
-		$url = "http://" . $region . ".battle.net/api/wow/data/character/races";
+		if ($api_key) {
+			$url = "https://" . $region . ".api.battle.net/api/wow/data/character/races?locale=en_GB&apikey=" . $api_key;
+		} else {
+			$url = "http://" . $region . ".battle.net/api/wow/data/character/races";
+		}
 		$tmp = json_decode( RaidPlannerHelper::downloadData( $url ) ,true );
 
 		foreach ($tmp['races'] as $race) {
@@ -73,17 +78,28 @@ class PlgRaidplannerWow extends JPlugin
 		$db->setQuery( $query );
 		$tmp1 = $db->loadAssocList( 'class_name' );
 
-		$url = "http://" . $region . ".battle.net/api/wow/data/character/classes";
+		if ($api_key) {
+			$url = "https://" . $region . ".api.battle.net/api/wow/data/character/classes?locale=en_GB&apikey=" . $api_key;
+		} else {
+			$url = "http://" . $region . ".battle.net/api/wow/data/character/classes";
+		}
 		$tmp = json_decode( RaidPlannerHelper::downloadData( $url ) ,true );
 
 		foreach ($tmp['classes'] as $class) {
 			$classes[ $class['id'] ] = $tmp1[ $class['name'] ]['class_id'];
 		}
 
-		$url = "http://" . $region . ".battle.net/api/wow/guild/";
-		$url .= rawurlencode( $realm ) . "/";
-		$url .= rawurlencode( $this->guild_name );
-		$url = $url . "?fields=members";
+		if ($api_key) {
+			$url = "https://" . $region . ".api.battle.net/api/wow/guild/";
+			$url .= rawurlencode( $realm ) . "/";
+			$url .= rawurlencode( $this->guild_name );
+			$url = $url . "?fields=members&locale=en_GB&apikey=" . $api_key;
+		} else {
+			$url = "http://" . $region . ".battle.net/api/wow/guild/";
+			$url .= rawurlencode( $realm ) . "/";
+			$url .= rawurlencode( $this->guild_name );
+			$url = $url . "?fields=members";
+		}
 
 		$data = json_decode( RaidPlannerHelper::downloadData( $url ) );
 		if (function_exists('json_last_error')) {

@@ -5,10 +5,10 @@
 	<author>Taracque</author>
 	<authorEmail>taracque@taracque.hu</authorEmail>
 	<authorUrl>http://taracque.hu</authorUrl>
-	<copyright>Copyright Info</copyright>
+	<copyright>© Copyright 2013-14 Taracque</copyright>
 	<license>http://www.gnu.org/licenseses/gpl-2.0.html GNU/GPL</license>
-	<version>0.0.6</version>
-	<releaseDate>2014-08-18</releaseDate>
+	<version>0.0.7</version>
+	<releaseDate>2014-11-05</releaseDate>
 	<releaseType>Release</releaseType>
 	<description>RaidPlanner WoW Plugin</description>
 	<rostersync>true</rostersync>
@@ -35,6 +35,8 @@
 		<file destionation="class_icons">class_icons/wow_warlock.png</file>
 		<file destionation="class_icons">class_icons/wow_warrior.png</file>
 		<file destionation="class_icons">class_icons/wow_monk.png</file>
+		<file destionation="raid_icons">raid_icons/blackrock_foundry.png</file>
+		<file destionation="raid_icons">raid_icons/highmaul.png</file>
 		<file destionation="raid_icons">raid_icons/baradin_hold.png</file>
 		<file destionation="raid_icons">raid_icons/bastion_of_twilight.png</file>
 		<file destionation="raid_icons">raid_icons/blackwing_descent.png</file>
@@ -76,6 +78,7 @@
 			<option value="tw">TW</option>
 			<option value="cn">CN</option>
 		</param>
+		<param type="text" name="api_key" label="Battle.net API Key" />
 	</params>
 	<!-- UPDATESERVER DEFINITION -->
 	<updateservers>
