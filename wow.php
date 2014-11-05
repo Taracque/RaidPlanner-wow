@@ -179,17 +179,19 @@ class PlgRaidplannerWow extends JPlugin
 		$document->addScript('media/com_raidplanner/wow_tabards/guild-tabard.js');
 		
 		$header = array();
-		$header[] = '<canvas id="rp_guild_tabard" width="120" height="120" style="float:right;"></canvas>';
-		$header[] = '<script type="text/javascript">';
-		$header[] = '	window.addEvent("domready",function(){';
-		$header[] = '		var tabard = new GuildTabard("rp_guild_tabard", {';
-		$header[] = '			"ring": "' . $this->rp_params['side'] . '",';
-		$header[] = '			"bg": [ 0, "' . $this->rp_params['emblem']['backgroundColor'] . '" ], ';
-		$header[] = '			"border": [ "' . $this->rp_params['emblem']['border'] . '", "' . $this->rp_params['emblem']['borderColor'] . '" ], ';
-		$header[] = '			"emblem": [ "' . $this->rp_params['emblem']['icon'] . '", "' . $this->rp_params['emblem']['iconColor'] . '" ], ';
-		$header[] = '		}, "' . JURI::base() . 'media/com_raidplanner/wow_tabards/");';
-		$header[] = '	});';
-		$header[] = '</script>';
+		if (($this->rp_params['side']) && ($this->rp_params['emblem'])) {
+			$header[] = '<canvas id="rp_guild_tabard" width="120" height="120" style="float:right;"></canvas>';
+			$header[] = '<script type="text/javascript">';
+			$header[] = '	window.addEvent("domready",function(){';
+			$header[] = '		var tabard = new GuildTabard("rp_guild_tabard", {';
+			$header[] = '			"ring": "' . $this->rp_params['side'] . '",';
+			$header[] = '			"bg": [ 0, "' . $this->rp_params['emblem']['backgroundColor'] . '" ], ';
+			$header[] = '			"border": [ "' . $this->rp_params['emblem']['border'] . '", "' . $this->rp_params['emblem']['borderColor'] . '" ], ';
+			$header[] = '			"emblem": [ "' . $this->rp_params['emblem']['icon'] . '", "' . $this->rp_params['emblem']['iconColor'] . '" ], ';
+			$header[] = '		}, "' . JURI::base() . 'media/com_raidplanner/wow_tabards/");';
+			$header[] = '	});';
+			$header[] = '</script>';
+		}
 		$header[] = '<h2><a href="' . $this->rp_params['link'] . '" data-darktip="wow.guild:'.$this->rp_params['guild_region'].'.'.$this->rp_params['guild_realm'].'.'.$this->guild_name.'(en)" target="_blank">' . $this->guild_name . '</a></h2>';
 		$header[] = '<strong>' . JText::_('COM_RAIDPLANNER_LEVEL') . " " . $this->rp_params['guild_level'] . " " . $this->rp_params['side'] . " " . JText::_('COM_RAIDPLANNER_GUILD') . '<br />';
 		$header[] = '<span data-darktip="wow.realm:'.$this->rp_params['guild_region'].'.'.$this->rp_params['guild_realm'].'(en)">'.$this->rp_params['guild_realm'] . " - " . strtoupper($this->rp_params['guild_region']) . '</span></strong>';
