@@ -82,6 +82,6 @@
 	</params>
 	<!-- UPDATESERVER DEFINITION -->
 	<updateservers>
-		<server type="extension" priority="1" name="RaidPlanner GitHub Site">https://raw.github.com/Taracque/RaidPlanner-wow/master/updates.xml</server>
+		<server type="extension" priority="1" name="RaidPlanner GitHub Site">https://raw.githubusercontent.com/Taracque/RaidPlanner-wow/master/updates.xml</server>
 	</updateservers>
 </extension>
