@@ -125,7 +125,8 @@ class PlgRaidplannerWow extends JPlugin
 				'char_link'	=> "http://" . $region . ".battle.net/wow/character/%s/%s/advanced",
 				'guild_realm'	=>	$data->realm,
 				'guild_region'	=>	$region,
-				'guild_level'	=>	$data->level
+				'guild_level'	=>	$data->level,
+				'api_key'		=>	$api_key
 			);
 
 			$this->rp_params = array_merge( $this->rp_params, $params );
@@ -147,13 +148,18 @@ class PlgRaidplannerWow extends JPlugin
 
 				foreach($data->members as $member)
 				{
+					// append Realm to character name if not the same as guild realm.
+					$name = $member->character->name;
+					if ( strtoupper($member->character->realm) != strtoupper($data->realm) ) {
+						$name = $name . "-" . $member->character->realm;
+					}
 					// check if character exists
-					$query = "SELECT character_id FROM #__raidplanner_character WHERE char_name LIKE BINARY ".$db->Quote($member->character->name)."";
+					$query = "SELECT character_id FROM #__raidplanner_character WHERE char_name LIKE BINARY ".$db->Quote($name)."";
 					$db->setQuery($query);
 					$char_id = $db->loadResult();
 					// not found insert it
 					if (!$char_id) {
-						$query="INSERT INTO #__raidplanner_character SET char_name=".$db->Quote($member->character->name)."";
+						$query="INSERT INTO #__raidplanner_character SET char_name=".$db->Quote($name)."";
 						$db->setQuery($query);
 						$db->query();
 						$char_id=$db->insertid();
