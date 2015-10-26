@@ -7,8 +7,8 @@
 	<authorUrl>http://taracque.hu</authorUrl>
 	<copyright>© Copyright 2013-14 Taracque</copyright>
 	<license>http://www.gnu.org/licenseses/gpl-2.0.html GNU/GPL</license>
-	<version>0.0.8</version>
-	<releaseDate>2014-11-07</releaseDate>
+	<version>0.0.9</version>
+	<releaseDate>2015-10-26</releaseDate>
 	<releaseType>Release</releaseType>
 	<description>RaidPlanner WoW Plugin</description>
 	<rostersync>true</rostersync>
@@ -35,6 +35,7 @@
 		<file destionation="class_icons">class_icons/wow_warlock.png</file>
 		<file destionation="class_icons">class_icons/wow_warrior.png</file>
 		<file destionation="class_icons">class_icons/wow_monk.png</file>
+		<file destionation="raid_icons">raid_icons/hellfire_citadel.png</file>
 		<file destionation="raid_icons">raid_icons/blackrock_foundry.png</file>
 		<file destionation="raid_icons">raid_icons/highmaul.png</file>
 		<file destionation="raid_icons">raid_icons/baradin_hold.png</file>
