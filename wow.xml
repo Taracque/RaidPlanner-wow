@@ -5,10 +5,10 @@
 	<author>Taracque</author>
 	<authorEmail>taracque@taracque.hu</authorEmail>
 	<authorUrl>http://taracque.hu</authorUrl>
-	<copyright>© Copyright 2013-14 Taracque</copyright>
+	<copyright>© Copyright 2013-15 Taracque</copyright>
 	<license>http://www.gnu.org/licenseses/gpl-2.0.html GNU/GPL</license>
-	<version>0.0.9</version>
-	<releaseDate>2015-10-26</releaseDate>
+	<version>0.1.0</version>
+	<releaseDate>2015-11-25</releaseDate>
 	<releaseType>Release</releaseType>
 	<description>RaidPlanner WoW Plugin</description>
 	<rostersync>true</rostersync>

@@ -192,7 +192,15 @@ class PlgRaidplannerWow extends JPlugin
 
 	public function onRPGetCharacterLink( $char_name )
 	{
-		return sprintf($this->rp_params['char_link'], rawurlencode($this->rp_params['guild_realm']), rawurlencode($char_name) ) . '" data-darktip="wow.character:'.$this->rp_params['guild_region'].'.'.$this->rp_params['guild_realm'].'.'.$char_name.'(en)" target="_blank';
+		$realm = $this->rp_params['guild_realm'];
+		$name = $char_name;
+		if (strpos($char_name, '-') !== false) {
+			$parts = explode( '-', $char_name );
+			$name = $parts[0];
+			$realm = $parts[1];
+		}
+	
+		return sprintf($this->rp_params['char_link'], rawurlencode($realm), rawurlencode($name) ) . '" data-darktip="wow.character:'.$this->rp_params['guild_region'].'.'.$realm.'.'.$name.'(en)" target="_blank';
 	}
 	
 	public function onRPGetGuildHeader()
