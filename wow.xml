@@ -5,10 +5,10 @@
 	<author>Taracque</author>
 	<authorEmail>taracque@taracque.hu</authorEmail>
 	<authorUrl>http://taracque.hu</authorUrl>
-	<copyright>© Copyright 2013-15 Taracque</copyright>
+	<copyright>© Copyright 2013-16 Taracque</copyright>
 	<license>http://www.gnu.org/licenseses/gpl-2.0.html GNU/GPL</license>
-	<version>0.1.0</version>
-	<releaseDate>2015-11-25</releaseDate>
+	<version>0.2.0</version>
+	<releaseDate>2016-03-31</releaseDate>
 	<releaseType>Release</releaseType>
 	<description>RaidPlanner WoW Plugin</description>
 	<rostersync>true</rostersync>
@@ -79,7 +79,7 @@
 			<option value="tw">TW</option>
 			<option value="cn">CN</option>
 		</param>
-		<param type="text" name="api_key" label="Battle.net API Key" />
+		<param type="text" name="api_key" label="Battle.net API Key" description="Register for an api key at https://dev.battle.net" />
 	</params>
 	<!-- UPDATESERVER DEFINITION -->
 	<updateservers>
