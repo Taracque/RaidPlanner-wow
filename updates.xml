@@ -4,13 +4,13 @@
 		<name>RaidPlanner WoW Theme</name>
 		<description>World of Warcraft theme and sync plugin for RaidPlanner</description>
 		<element>wow</element>
-		<type>plugin</type>
+		<type>extension</type>
 		<version>0.2.1</version>
 		<client_id>0</client_id>
 
 		<infourl title="RaidPlanner WoW Plugin">http://taracque.hu/raidplanner</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://codeload.github.com/Taracque/RaidPlanner-wow/zip/master#.zip</downloadurl>
+			<downloadurl type="full" format="zip">http://github.com/Taracque/RaidPlanner/archive/master.zip</downloadurl>
 		</downloads>
 
 		<maintainer>Taracque</maintainer>
