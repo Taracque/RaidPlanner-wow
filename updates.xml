@@ -5,7 +5,7 @@
 		<description>World of Warcraft theme and sync plugin for RaidPlanner</description>
 		<element>wow</element>
 		<type>plugin</type>
-		<version>0.2.0</version>
+		<version>0.2.1</version>
 		<client_id>0</client_id>
 
 		<infourl title="RaidPlanner WoW Plugin">http://taracque.hu/raidplanner</infourl>

@@ -147,7 +147,7 @@ class PlgRaidplannerWow extends JPlugin
 				$db->query();
 
 				/* decrease counter by one in case of previously detached characters */
-				$query = "UPDATE #__raidplanner_character SET guild_id=guild+1 WHERE guild_id<0";
+				$query = "UPDATE #__raidplanner_character SET guild_id=guild_id+1 WHERE guild_id<0";
 				$db->setQuery($query);
 				$db->query();
 
