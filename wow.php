@@ -140,7 +140,7 @@ class PlgRaidplannerWow extends JPlugin
 			$db->query();
 			
 			/* if we atleast one member in listed */
-			if ( (is_array($data->members)) && (count($data->members) > 0) ) {	
+			if ( (is_array($data->members)) && (count($data->members) > 0) && ($data->memebers[0]) && ($data->memebers[0]->character)  && ($data->memebers[0]->character->name != '') ) {	
 				/* detach characters from guild */
 				$query = "UPDATE #__raidplanner_character SET guild_id=-5 WHERE guild_id=".intval($this->guild_id)."";
 				$db->setQuery($query);
