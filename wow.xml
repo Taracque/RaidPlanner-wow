@@ -7,7 +7,7 @@
 	<authorUrl>http://taracque.hu</authorUrl>
 	<copyright>© Copyright 2013-16 Taracque</copyright>
 	<license>http://www.gnu.org/licenseses/gpl-2.0.html GNU/GPL</license>
-	<version>0.2.4</version>
+	<version>0.2.5</version>
 	<releaseDate>2016-08-30</releaseDate>
 	<releaseType>Release</releaseType>
 	<description>RaidPlanner WoW Plugin</description>
@@ -58,12 +58,12 @@
 		<file destionation="raid_icons">raid_icons/terrace_of_endless_spring.png</file>
 		<file destionation="raid_icons">raid_icons/throne_of_four_winds.png</file>
 		<file destionation="raid_icons">raid_icons/throne_of_thunder.png</file>
+		<file destionation="role_icons">raid_icons/the_emerald_nightmare.png</file>
 		<file destionation="raid_icons">raid_icons/wow.png</file>
 		<file destionation="role_icons">role_icons/role_heal.png</file>
 		<file destionation="role_icons">role_icons/role_melee_dps.png</file>
 		<file destionation="role_icons">role_icons/role_ranged_dps.png</file>
 		<file destionation="role_icons">role_icons/role_tank.png</file>
-		<file destionation="role_icons">role_icons/the_emerald_nightmare.png</file>
 		<folder>wow_tabards</folder>
 	</media>
 	<files>
