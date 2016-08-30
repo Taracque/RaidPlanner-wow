@@ -7,8 +7,8 @@
 	<authorUrl>http://taracque.hu</authorUrl>
 	<copyright>© Copyright 2013-16 Taracque</copyright>
 	<license>http://www.gnu.org/licenseses/gpl-2.0.html GNU/GPL</license>
-	<version>0.2.3</version>
-	<releaseDate>2016-05-17</releaseDate>
+	<version>0.2.4</version>
+	<releaseDate>2016-08-30</releaseDate>
 	<releaseType>Release</releaseType>
 	<description>RaidPlanner WoW Plugin</description>
 	<rostersync>true</rostersync>
@@ -35,6 +35,7 @@
 		<file destionation="class_icons">class_icons/wow_warlock.png</file>
 		<file destionation="class_icons">class_icons/wow_warrior.png</file>
 		<file destionation="class_icons">class_icons/wow_monk.png</file>
+		<file destionation="class_icons">class_icons/wow_demon_hunter.png</file>
 		<file destionation="raid_icons">raid_icons/hellfire_citadel.png</file>
 		<file destionation="raid_icons">raid_icons/blackrock_foundry.png</file>
 		<file destionation="raid_icons">raid_icons/highmaul.png</file>
@@ -62,6 +63,7 @@
 		<file destionation="role_icons">role_icons/role_melee_dps.png</file>
 		<file destionation="role_icons">role_icons/role_ranged_dps.png</file>
 		<file destionation="role_icons">role_icons/role_tank.png</file>
+		<file destionation="role_icons">role_icons/the_emerald_nightmare.png</file>
 		<folder>wow_tabards</folder>
 	</media>
 	<files>

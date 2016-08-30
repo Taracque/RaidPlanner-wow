@@ -9,6 +9,7 @@ INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_c
 INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) SELECT '#9482C9', 'Warlock', 'class_wow_warlock' FROM DUAL WHERE (SELECT COUNT(*) FROM `#__raidplanner_class` WHERE `class_name`='Warlock')=0;
 INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) SELECT '#FF7D0A', 'Druid', 'class_wow_druid' FROM DUAL WHERE (SELECT COUNT(*) FROM `#__raidplanner_class` WHERE `class_name`='Druid')=0;
 INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) SELECT '#558A84', 'Monk', 'class_wow_monk' FROM DUAL WHERE (SELECT COUNT(*) FROM `#__raidplanner_class` WHERE `class_name`='Monk')=0;
+INSERT IGNORE INTO `#__raidplanner_class` (`class_color`, `class_name`, `class_css`) SELECT '#a330c9', 'Demon Hunter', 'class_wow_demon_hunter' FROM DUAL WHERE (SELECT COUNT(*) FROM `#__raidplanner_class` WHERE `class_name`='Demon Hunter')=0;
 
 INSERT IGNORE INTO `#__raidplanner_race` (`race_name`) SELECT 'Human' FROM DUAL WHERE (SELECT COUNT(*) FROM `#__raidplanner_race` WHERE `race_name`='Human')=0;
 INSERT IGNORE INTO `#__raidplanner_race` (`race_name`) SELECT 'Orc' FROM DUAL WHERE (SELECT COUNT(*) FROM `#__raidplanner_race` WHERE `race_name`='Orc')=0;
