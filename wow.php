@@ -36,6 +36,17 @@ class PlgRaidplannerWow extends JPlugin
 	{
 		return true;
 	}
+	
+	private function getAccessToken() {
+		$client_id = $this->rp_params['client_id'];
+		$client_secret = $this->rp_params['client_secret'];
+		$region = $this->rp_params['guild_region'];
+
+		$url = "https://" . $region . ".battle.net/oauth/token?grant_type=client_credentials&client_id=" . $client_id . "&client_secret=" . $client_secret;
+		$token = json_decode( RaidPlannerHelper::downloadData( $url ) ,true );
+
+		return $token['access_token'];
+	}
 
 	public function onRPSyncGuild( $showOkStatus = false, $syncInterval = 4, $forceSync = false )
 	{
@@ -53,7 +64,7 @@ class PlgRaidplannerWow extends JPlugin
 
 		$region = $this->rp_params['guild_region'];
 		$realm = $this->rp_params['guild_realm'];
-		$api_key = $this->rp_params['api_key'];
+		$access_token = $this->getAccessToken();
 
 		/* load database ids race array */
 		$races = array();
@@ -61,11 +72,7 @@ class PlgRaidplannerWow extends JPlugin
 		$db->setQuery( $query );
 		$tmp1 = $db->loadAssocList( 'race_name' );
 
-		if ($api_key) {
-			$url = "https://" . $region . ".api.battle.net/wow/data/character/races?locale=en_GB&apikey=" . $api_key;
-		} else {
-			$url = "http://" . $region . ".battle.net/api/wow/data/character/races";
-		}
+		$url = "https://" . $region . ".api.blizzard.com/data/wow/playable-race/index?namespace=static-" . $region . "&locale=en_GB&access_token=" . $access_token;
 		$tmp = json_decode( RaidPlannerHelper::downloadData( $url ) ,true );
 
 		foreach ($tmp['races'] as $race) {
@@ -78,29 +85,24 @@ class PlgRaidplannerWow extends JPlugin
 		$db->setQuery( $query );
 		$tmp1 = $db->loadAssocList( 'class_name' );
 
-		if ($api_key) {
-			$url = "https://" . $region . ".api.battle.net/wow/data/character/classes?locale=en_GB&apikey=" . $api_key;
-		} else {
-			$url = "http://" . $region . ".battle.net/api/wow/data/character/classes";
-		}
+		$url = "https://" . $region . ".api.blizzard.com/data/wow/playable-class/index?namespace=static-" . $region . "&locale=en_GB&access_token=" . $access_token;
 		$tmp = json_decode( RaidPlannerHelper::downloadData( $url ) ,true );
 
 		foreach ($tmp['classes'] as $class) {
 			$classes[ $class['id'] ] = $tmp1[ $class['name'] ]['class_id'];
 		}
 
-		if ($api_key) {
-			$url = "https://" . $region . ".api.battle.net/wow/guild/";
-			$url .= rawurlencode( $realm ) . "/";
-			$url .= rawurlencode( $this->guild_name );
-			$url = $url . "?fields=members&locale=en_GB&apikey=" . $api_key;
-		} else {
-			$url = "http://" . $region . ".battle.net/api/wow/guild/";
-			$url .= rawurlencode( $realm ) . "/";
-			$url .= rawurlencode( $this->guild_name );
-			$url = $url . "?fields=members";
-		}
+		$url = "https://" . $region . ".api.blizzard.com/data/wow/guild/";
+		$url .= rawurlencode( strtolower( $realm) ) . "/";
+		$url .= rawurlencode( strtolower( $this->guild_name ) );
+		$url = $url . "?namespace=profile-" . $region . "&locale=en_GB&access_token=" . $access_token;
+		$guild_data = json_decode( RaidPlannerHelper::downloadData( $url ) );
 
+
+		$url = "https://" . $region . ".api.blizzard.com/data/wow/guild/";
+		$url .= rawurlencode( strtolower( $realm) ) . "/";
+		$url .= rawurlencode( strtolower( $this->guild_name ) );
+		$url = $url . "/roster?namespace=profile-" . $region . "&locale=en_GB&access_token=" . $access_token;
 		$data = json_decode( RaidPlannerHelper::downloadData( $url ) );
 		if (function_exists('json_last_error')) {
 			if (json_last_error() != JSON_ERROR_NONE)
@@ -109,30 +111,26 @@ class PlgRaidplannerWow extends JPlugin
 				return null;
 			}
 		}
-		if (isset($data->status) && ($data->status=="nok"))
-		{
-			JError::raiseWarning('100','ArmorySync failed');
-			return null;
-		}
 
-		if (($this->guild_name == @$data->name) && ($data->name!=''))
+		if (($this->guild_name == @$guild_data->name) && ($guild_data->name!=''))
 		{
 			$params = array(
-				'achievementPoints' => $data->achievementPoints,
-				'side'		=> ($data->side==0)?"Alliance":"Horde",
-				'emblem'	=> get_object_vars( $data->emblem ),
+				'achievementPoints' => $guild_data->achievementPoints,
+				'side'		=> ($guild_data->faction->type=='HORDER')?"Horde":"Alliance",
+				'emblem'	=> get_object_vars( $guild_data->crest->emblem ),
 				'link'		=> "http://" . $region . ".battle.net/wow/guild/" . rawurlencode($realm) . "/" . rawurlencode($data->name) ."/",
 				'char_link'	=> "http://" . $region . ".battle.net/wow/character/%s/%s/advanced",
-				'guild_realm'	=>	$data->realm,
+				'guild_realm'	=>	$guild_data->realm->name,
 				'guild_region'	=>	$region,
 				'guild_level'	=>	$data->level,
-				'api_key'		=>	$api_key
+				'client_id'		=>	$this->rp_params['client_id'],
+				'client_secret'	=>	$this->rp_params['client_secret']
 			);
 
 			$this->rp_params = array_merge( $this->rp_params, $params );
 			
 			$query = "UPDATE #__raidplanner_guild SET
-							guild_name=".$db->Quote($data->name).",
+							guild_name=".$db->Quote($guild_data->name).",
 							params=".$db->Quote(json_encode($params)).",
 							lastSync=NOW()
 							WHERE guild_id=".intval($this->guild_id);
@@ -155,8 +153,8 @@ class PlgRaidplannerWow extends JPlugin
 				{
 					// append Realm to character name if not the same as guild realm.
 					$name = $member->character->name;
-					if ( strtoupper($member->character->realm) != strtoupper($data->realm) ) {
-						$name = $name . "-" . $member->character->realm;
+					if ( strtoupper($member->character->realm->slug) != strtoupper($guild_data->realm->slug) ) {
+						$name = $name . "-" . $member->character->realm->slug;
 					}
 					// check if character exists
 					$query = "SELECT character_id FROM #__raidplanner_character WHERE char_name LIKE BINARY ".$db->Quote($name)."";
@@ -169,9 +167,8 @@ class PlgRaidplannerWow extends JPlugin
 						$db->query();
 						$char_id=$db->insertid();
 					}
-					$query = "UPDATE #__raidplanner_character SET class_id='" . $classes[ intval($member->character->class) ] . "'
-																,race_id='" . $races[ intval($member->character->race) ] . "'
-																,gender_id='" . (intval($member->character->gender) + 1) . "'
+					$query = "UPDATE #__raidplanner_character SET class_id='" . $classes[ intval($member->character->playable_class->id) ] . "'
+																,race_id='" . $races[ intval($member->character->playable_race->id) ] . "'
 																,char_level='" . intval($member->character->level) . "'
 																,rank='" . intval($member->rank) . "'
 																,guild_id='" . intval($this->guild_id) . "'
