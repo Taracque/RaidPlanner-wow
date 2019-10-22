@@ -116,10 +116,10 @@ class PlgRaidplannerWow extends JPlugin
 		{
 			$params = array(
 				'achievementPoints' => $guild_data->achievementPoints,
-				'side'		=> ($guild_data->faction->type=='HORDER')?"Horde":"Alliance",
+				'side'		=> ($guild_data->faction->type=='HORDE')?"Horde":"Alliance",
 				'emblem'	=> get_object_vars( $guild_data->crest->emblem ),
-				'link'		=> "http://" . $region . ".battle.net/wow/guild/" . rawurlencode($realm) . "/" . rawurlencode($data->name) ."/",
-				'char_link'	=> "http://" . $region . ".battle.net/wow/character/%s/%s/advanced",
+				'link'		=> "http://worldofwarcraft.com/en-gb/guild/" . $region . "/" . rawurlencode($realm) . "/" . rawurlencode($data->name),
+				'char_link'	=> "http://worldofwarcraft.com/en-gb/character/" . $region . "/%s/%s",
 				'guild_realm'	=>	$guild_data->realm->name,
 				'guild_region'	=>	$region,
 				'guild_level'	=>	$data->level,
@@ -137,6 +137,9 @@ class PlgRaidplannerWow extends JPlugin
 			$db->setQuery($query);
 			$db->query();
 			
+			$realms = array();
+			$realms[$guild_data->realm->id] = $guild_data->realm->name;
+			
 			/* if we atleast one member in listed */
 			if ( (is_array($data->members)) && (count($data->members) > 0) && ($data->members[0]) && ($data->members[0]->character)  && ($data->members[0]->character->name != '') ) {	
 				/* detach characters from guild */
@@ -151,10 +154,16 @@ class PlgRaidplannerWow extends JPlugin
 
 				foreach($data->members as $member)
 				{
+					// check if we know realm name
+					if (!isset($realms[$member->character->realm->id])) {
+						$realm_data = json_decode( RaidPlannerHelper::downloadData( [$member->character->realm->href . "&locale=en_GB&access_token=" . $access_token ) );
+						$realms[$member->character->realm->id] = $realm_data->name;
+					}
+					
 					// append Realm to character name if not the same as guild realm.
 					$name = $member->character->name;
 					if ( strtoupper($member->character->realm->slug) != strtoupper($guild_data->realm->slug) ) {
-						$name = $name . "-" . $member->character->realm->slug;
+						$name = $name . "-" . $realms[$member->character->realm->id];
 					}
 					// check if character exists
 					$query = "SELECT character_id FROM #__raidplanner_character WHERE char_name LIKE BINARY ".$db->Quote($name)."";
@@ -225,7 +234,7 @@ class PlgRaidplannerWow extends JPlugin
 			$header[] = '</script>';
 		}
 		$header[] = '<h2><a href="' . $this->rp_params['link'] . '" data-darktip="wow.guild:'.$this->rp_params['guild_region'].'.'.$this->rp_params['guild_realm'].'.'.$this->guild_name.'(en)" target="_blank">' . $this->guild_name . '</a></h2>';
-		$header[] = '<strong>' . JText::_('COM_RAIDPLANNER_LEVEL') . " " . $this->rp_params['guild_level'] . " " . $this->rp_params['side'] . " " . JText::_('COM_RAIDPLANNER_GUILD') . '<br />';
+		$header[] = '<strong>' . $this->rp_params['side'] . " " . JText::_('COM_RAIDPLANNER_GUILD') . '<br />';
 		$header[] = '<span data-darktip="wow.realm:'.$this->rp_params['guild_region'].'.'.$this->rp_params['guild_realm'].'(en)">'.$this->rp_params['guild_realm'] . " - " . strtoupper($this->rp_params['guild_region']) . '</span></strong>';
 
 		return implode("\n", $header);
