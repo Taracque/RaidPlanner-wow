@@ -156,7 +156,7 @@ class PlgRaidplannerWow extends JPlugin
 				{
 					// check if we know realm name
 					if (!isset($realms[$member->character->realm->id])) {
-						$realm_data = json_decode( RaidPlannerHelper::downloadData( $member->character->realm->href . "&locale=en_GB&access_token=" . $access_token ) );
+						$realm_data = json_decode( RaidPlannerHelper::downloadData( $member->character->realm->key->href . "&locale=en_GB&access_token=" . $access_token ) );
 						$realms[$member->character->realm->id] = $realm_data->name;
 					}
 					
